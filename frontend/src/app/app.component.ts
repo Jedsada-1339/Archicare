@@ -8,5 +8,14 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'frontend';
+  textcolor = "text-black"
+
+  toggleColor(){
+    if(this.textcolor ==  "text-black"){
+      this.textcolor = "text-indigo-100"
+    }
+    else{
+      this.textcolor = "text-black"
+    }
+  }
 }
