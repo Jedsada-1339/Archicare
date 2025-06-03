@@ -6,8 +6,9 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { BlogComponent } from './blog/blog.component';
 import { HeaderComponent } from './header/header.component';
-import { CardComponent } from './card/card.component';
-import { BlogCardComponent } from './blog-card/blog-card.component';
+import { CardComponent } from './Reusable/card/card.component';
+import { BlogCardComponent } from './Reusable/blog-card/blog-card.component';
+import { RateComponent } from './Reusable/rate/rate.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { BlogCardComponent } from './blog-card/blog-card.component';
     BlogComponent,
     HeaderComponent,
     CardComponent,
-    BlogCardComponent
+    BlogCardComponent,
+    RateComponent
   ],
   imports: [
     BrowserModule,
