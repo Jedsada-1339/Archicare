@@ -9,6 +9,7 @@ import { HeaderComponent } from './header/header.component';
 import { CardComponent } from './Reusable/card/card.component';
 import { BlogCardComponent } from './Reusable/blog-card/blog-card.component';
 import { RateComponent } from './Reusable/rate/rate.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { RateComponent } from './Reusable/rate/rate.component';
     HeaderComponent,
     CardComponent,
     BlogCardComponent,
-    RateComponent
+    RateComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
