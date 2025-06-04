@@ -10,6 +10,7 @@ import { CardComponent } from './Reusable/card/card.component';
 import { BlogCardComponent } from './Reusable/blog-card/blog-card.component';
 import { RateComponent } from './Reusable/rate/rate.component';
 import { FooterComponent } from './footer/footer.component';
+import { AllHouseComponent } from './all-house/all-house.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FooterComponent } from './footer/footer.component';
     CardComponent,
     BlogCardComponent,
     RateComponent,
-    FooterComponent
+    FooterComponent,
+    AllHouseComponent
   ],
   imports: [
     BrowserModule,
