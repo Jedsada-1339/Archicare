@@ -7,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrl: './filter-button.component.css'
 })
 export class FilterButtonComponent {
-
+  show_modal="hidden"
+  
+  openmodal(){
+    this.show_modal=""
+  }
+  closemodal(){
+    this.show_modal="hidden"
+  }
 }

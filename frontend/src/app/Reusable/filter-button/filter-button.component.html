@@ -1,11 +1,11 @@
 <div class="fixed bottom-0 right-4 p-4">
-    <button class="bg-gray-800 text-white rounded-full w-15 h-15 flex items-center justify-center cursor-pointer">
+    <button class="bg-gray-800 text-white rounded-full w-15 h-15 flex items-center justify-center cursor-pointer" (click)="openmodal()">
         <img src="filter.svg" alt="">
     </button>
 </div>
 
 <!-- Filter modal -->
-<div class="hidden modal fixed w-full h-full top-0 left-0 flex items-center justify-center">
+<div class="{{show_modal}} modal fixed w-full h-full top-0 left-0 flex items-center justify-center">
 
     <!-- hoverlay  -->
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
@@ -27,7 +27,7 @@
                 lacus sit amet egestas rhoncus, turpis nulla laoreet urna, nec ultricies nibh urna eu sapien. </p>
 
             <div class="mt-4 flex justify-end">
-                <button class="modal-close px-4 bg-gray-100 p-3 rounded-lg text-black hover:bg-gray-200">Cancel</button>
+                <button class="modal-close px-4 bg-gray-100 p-3 rounded-lg text-black hover:bg-gray-200" (click)="closemodal()">Cancel</button>
                 <button class="px-4 bg-purple-500 p-3 ml-3 rounded-lg text-white hover:bg-purple-400">Save</button>
             </div>
         </div>
