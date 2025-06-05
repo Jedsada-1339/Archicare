@@ -13,6 +13,7 @@ import { FooterComponent } from './footer/footer.component';
 import { AllHouseComponent } from './all-house/all-house.component';
 import { FilterButtonComponent } from './Reusable/filter-button/filter-button.component';
 import { LoginComponent } from './login/login.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { LoginComponent } from './login/login.component';
     FooterComponent,
     AllHouseComponent,
     FilterButtonComponent,
-    LoginComponent
+    LoginComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
