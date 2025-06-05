@@ -12,6 +12,7 @@ import { RateComponent } from './Reusable/rate/rate.component';
 import { FooterComponent } from './footer/footer.component';
 import { AllHouseComponent } from './all-house/all-house.component';
 import { FilterButtonComponent } from './Reusable/filter-button/filter-button.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { FilterButtonComponent } from './Reusable/filter-button/filter-button.co
     RateComponent,
     FooterComponent,
     AllHouseComponent,
-    FilterButtonComponent
+    FilterButtonComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
