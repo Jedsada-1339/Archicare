@@ -15,6 +15,7 @@ import { FilterButtonComponent } from './Reusable/filter-button/filter-button.co
 import { LoginComponent } from './login/login.component';
 import { LoadingComponent } from './loading/loading.component';
 import { HouseDetailComponent } from './house-detail/house-detail.component';
+import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { HouseDetailComponent } from './house-detail/house-detail.component';
     FilterButtonComponent,
     LoginComponent,
     LoadingComponent,
-    HouseDetailComponent
+    HouseDetailComponent,
+    BlogDetailComponent
   ],
   imports: [
     BrowserModule,
