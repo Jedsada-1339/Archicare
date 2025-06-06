@@ -7,27 +7,34 @@ import { Component } from '@angular/core';
   styleUrl: './rate.component.css'
 })
 export class RateComponent {
-  maxStars = 5;
-  currentRating = 0;
-  hoverRating = 0;
+  likes = 342;
+  dislikes = 12;
+  liked = false;
+  disliked = false;
 
-  // เมื่อเมาส์ hover ดาว
-  onHover(index: number) {
-    this.hoverRating = index;
+  toggleLike() {
+    if (this.liked) {
+      this.likes--;
+    } else {
+      this.likes++;
+      if (this.disliked) {
+        this.disliked = false;
+        this.dislikes--;
+      }
+    }
+    this.liked = !this.liked;
   }
 
-  // เมื่อออกจากดาว
-  onLeave() {
-    this.hoverRating = 0;
-  }
-
-  // เมื่อคลิกให้ดาว
-  rate(index: number) {
-    this.currentRating = index;
-  }
-
-  // เช็คว่าจะให้ดาวเต็มหรือเปล่า
-  isFilled(index: number): boolean {
-    return index <= (this.hoverRating || this.currentRating);
+  toggleDislike() {
+    if (this.disliked) {
+      this.dislikes--;
+    } else {
+      this.dislikes++;
+      if (this.liked) {
+        this.liked = false;
+        this.likes--;
+      }
+    }
+    this.disliked = !this.disliked;
   }
 }

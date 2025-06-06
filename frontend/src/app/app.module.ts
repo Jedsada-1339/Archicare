@@ -14,6 +14,7 @@ import { AllHouseComponent } from './all-house/all-house.component';
 import { FilterButtonComponent } from './Reusable/filter-button/filter-button.component';
 import { LoginComponent } from './login/login.component';
 import { LoadingComponent } from './loading/loading.component';
+import { HouseDetailComponent } from './house-detail/house-detail.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { LoadingComponent } from './loading/loading.component';
     AllHouseComponent,
     FilterButtonComponent,
     LoginComponent,
-    LoadingComponent
+    LoadingComponent,
+    HouseDetailComponent
   ],
   imports: [
     BrowserModule,
