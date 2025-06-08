@@ -11,6 +11,8 @@ export class RateComponent {
   dislikes = 12;
   liked = false;
   disliked = false;
+  showLikeNotification = false;
+  showDislikeNotification = false;
 
   toggleLike() {
     if (this.liked) {
@@ -23,6 +25,15 @@ export class RateComponent {
       }
     }
     this.liked = !this.liked;
+    
+    // Show like notification
+    this.showLikeNotification = true;
+    this.showDislikeNotification = false;
+    
+    // Hide notification after 3 seconds
+    setTimeout(() => {
+      this.showLikeNotification = false;
+    }, 1500);
   }
 
   toggleDislike() {
@@ -36,5 +47,14 @@ export class RateComponent {
       }
     }
     this.disliked = !this.disliked;
+    
+    // Show dislike notification
+    this.showDislikeNotification = true;
+    this.showLikeNotification = false;
+    
+    // Hide notification after 3 seconds
+    setTimeout(() => {
+      this.showDislikeNotification = false;
+    }, 1500);
   }
 }
