@@ -16,6 +16,7 @@ import { LoginComponent } from './login/login.component';
 import { LoadingComponent } from './loading/loading.component';
 import { HouseDetailComponent } from './house-detail/house-detail.component';
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
+import { BookmarkComponent } from './bookmark/bookmark.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { BlogDetailComponent } from './blog-detail/blog-detail.component';
     LoginComponent,
     LoadingComponent,
     HouseDetailComponent,
-    BlogDetailComponent
+    BlogDetailComponent,
+    BookmarkComponent
   ],
   imports: [
     BrowserModule,
