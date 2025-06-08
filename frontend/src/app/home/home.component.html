@@ -46,7 +46,7 @@
     </main>
 
     <!-- Content -->
-    <section class="px-10 lg:px-10">
+    <section class="px-5 lg:px-10">
         <!-- Recommend House -->
         <div class="mx-auto max-w-2xl lg:mx-0">
             <h2 class="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">Top rate house</h2>
@@ -76,6 +76,7 @@
             </h2>
             <p class="mt-2 text-lg/8 text-gray-600">Learn how to grow your business with our expert advice.</p>
         </div>
+<!-- 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-8 lg:px-20 py-6">
             <app-blog-card></app-blog-card>
             <app-blog-card></app-blog-card>
@@ -83,7 +84,33 @@
             <app-blog-card></app-blog-card>
             <app-blog-card></app-blog-card>
             <app-blog-card></app-blog-card>
+        </div> -->
+
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Large card -->
+                <div class="md:col-span-2 md:row-span-2">
+                    <app-blog-card></app-blog-card>
+                </div>
+
+                <!-- Two small cards -->
+                <div>
+                    <app-blog-card></app-blog-card>
+                </div>
+                <div>
+                    <app-blog-card></app-blog-card>
+                </div>
+
+                <!-- Three medium cards -->
+                <div>
+                    <app-blog-card></app-blog-card>
+                </div>
+                <div>
+                    <app-blog-card></app-blog-card>
+                </div>
+            </div>
         </div>
+
 
         <!-- More button -->
         <div class="flex items-center justify-center py-15">
