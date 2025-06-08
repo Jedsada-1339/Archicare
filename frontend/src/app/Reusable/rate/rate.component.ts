@@ -36,7 +36,7 @@ export class RateComponent {
       // Hide notification after 3 seconds
       setTimeout(() => {
         this.showLikeNotification = false;
-      }, 500);
+      }, 1000);
     }
   }
 
@@ -61,7 +61,7 @@ export class RateComponent {
       // Hide notification after 3 seconds
       setTimeout(() => {
         this.showDislikeNotification = false;
-      }, 500);
+      }, 1000);
     }
   }
 }
