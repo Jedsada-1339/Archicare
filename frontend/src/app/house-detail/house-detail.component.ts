@@ -30,7 +30,7 @@ export class HouseDetailComponent implements OnInit, OnDestroy {
   ];
 
   houseDetails = {
-    title: 'แปลนบ้านสำเร็จรูป A016',
+    title: 'Two-storey modern house',
     area: {
       total: 137,
       usable: 93,
@@ -45,8 +45,8 @@ export class HouseDetailComponent implements OnInit, OnDestroy {
       terrace: true
     },
     specifications: {
-      budget: 'งบไม่เกิน 1.5 ล้านบาท',
-      land: '13.20 x 13.60 ม.'
+      budget: 'Not exceeding 1.5 million THB',
+      land: '13.20 x 13.60 meters'
     }
   };
 
