@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';
 import { HouseDetailComponent } from './house-detail/house-detail.component';
+import { PostPageComponent } from './post-page/post-page.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,10 @@ const routes: Routes = [
   {
     path: 'house-detail',
     component: HouseDetailComponent
+  },
+  {
+    path: 'post-page',
+    component: PostPageComponent
   }
 
 ];

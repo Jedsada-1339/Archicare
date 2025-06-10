@@ -17,6 +17,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { HouseDetailComponent } from './house-detail/house-detail.component';
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';
+import { PostPageComponent } from './post-page/post-page.component';
 
 @NgModule({
   declarations: [
@@ -34,11 +35,12 @@ import { BookmarkComponent } from './bookmark/bookmark.component';
     LoadingComponent,
     HouseDetailComponent,
     BlogDetailComponent,
-    BookmarkComponent
+    BookmarkComponent,
+    PostPageComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
