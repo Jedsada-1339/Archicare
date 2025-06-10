@@ -6,6 +6,7 @@ import { AllHouseComponent } from './all-house/all-house.component';
 import { LoginComponent } from './login/login.component';
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';
+import { HouseDetailComponent } from './house-detail/house-detail.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,10 @@ const routes: Routes = [
   {
     path: 'bookmark',
     component: BookmarkComponent
+  },
+  {
+    path: 'house-detail',
+    component: HouseDetailComponent
   }
 
 ];
