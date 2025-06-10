@@ -10,13 +10,23 @@ export class PostPageComponent {
   onSelectedHouse :string = "text-indigo-600 shadow bg-white"
   onSelectedBlog :string = ""
 
+  onFormHouse :boolean = true
+  onFormBlog :boolean = false
+
   togglePostHouse(){
     this.onSelectedHouse = "text-indigo-600 shadow bg-white"
     this.onSelectedBlog = ""
+
+    this.onFormHouse = true
+    this.onFormBlog = false
+
   }
 
   togglePostBlog(){
     this.onSelectedHouse = ""
     this.onSelectedBlog = "text-indigo-600 shadow bg-white"
+
+    this.onFormHouse = false
+    this.onFormBlog = true
   }
 }

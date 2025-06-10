@@ -40,7 +40,7 @@ import { PostPageComponent } from './post-page/post-page.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
