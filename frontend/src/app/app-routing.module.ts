@@ -5,6 +5,7 @@ import { BlogComponent } from './blog/blog.component';
 import { AllHouseComponent } from './all-house/all-house.component';
 import { LoginComponent } from './login/login.component';
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
+import { BookmarkComponent } from './bookmark/bookmark.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,11 @@ const routes: Routes = [
   {
     path: 'blog-detail',
     component: BlogDetailComponent
+  }
+  ,
+  {
+    path: 'bookmark',
+    component: BookmarkComponent
   }
 
 ];
