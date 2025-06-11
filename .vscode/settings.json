@@ -1,0 +1,7 @@
+{
+    "discord.removeDetails": true,
+    "discord.removeLowerDetails": true,
+    "discord.suppressNotifications": false,
+    "discord.removeRemoteRepository": false,
+    "discord.swapBigAndSmallImage": true
+}

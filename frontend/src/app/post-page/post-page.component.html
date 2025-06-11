@@ -24,70 +24,80 @@
         <form>
             <div class="mb-4">
                 <label for="name" class="block text-gray-700 font-medium mb-2">Title</label>
-                <input type="text" name="area" id="area" placeholder="Title name"
-                                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+                <input type="text" name="area" id="area" placeholder="Title name (Ex.Two-storey modern house)"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
             </div>
             <div class="mb-4">
                 <label for="gender" class="block text-gray-700 font-medium mb-2">Area</label>
                 <div class="-mx-3 flex flex-wrap">
                     <div class="w-full px-3 sm:w-1/2">
                         <div class="mb-5">
-                            <input type="number" name="area" id="area" placeholder="Enter total"
+                            <input type="number" name="area" id="area" placeholder="Enter total (sq.m.)"
                                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
                         </div>
                     </div>
                     <div class="w-full px-3 sm:w-1/2">
                         <div class="mb-5">
-                            <input type="number" name="city" id="city" placeholder="Enter usable"
+                            <input type="number" name="city" id="city" placeholder="Enter usable (sq.m./Balcony)"
                                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
                         </div>
                     </div>
                     <div class="w-full px-3 sm:w-1/2">
                         <div class="mb-5">
-                            <input type="number" name="state" id="state" placeholder="Enter terrace"
+                            <input type="number" name="state" id="state"
+                                placeholder="Enter terrace (sq.m./Storage Space)"
                                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
                         </div>
                     </div>
                     <div class="w-full px-3 sm:w-1/2">
                         <div class="mb-5">
-                            <input type="number" name="post-code" id="post-code" placeholder="Enter garden"
+                            <input type="number" name="post-code" id="post-code" placeholder="Enter garden (sq.m.)"
                                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
                         </div>
                     </div>
                 </div>
             </div>
             <div class="mb-4">
-                <label class="block text-gray-700 font-medium mb-2">Have Livingroom?</label>
-                <div class="flex flex-wrap -mx-2">
-                    <div class="px-2 w-1/3">
-                        <label for="color-red" class="block text-gray-700 font-medium mb-2">
-                            <input type="radio" id="color-red" name="color" value="red" class="mr-2">Have
-                        </label>
+                <label for="gender" class="block text-gray-700 font-medium mb-2">Bedroom / Bathroom Total</label>
+                <div class="-mx-3 flex flex-wrap">
+                    <div class="w-full px-3 sm:w-1/2">
+                        <div class="mb-5">
+                            <input type="number" name="area" id="area" placeholder="Enter total Bedroom"
+                                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+                        </div>
                     </div>
-                    <div class="px-2 w-1/3">
-                        <label for="color-blue" class="block text-gray-700 font-medium mb-2">
-                            <input type="radio" id="color-blue" name="color" value="blue" class="mr-2">Doesn't have
-                        </label>
+                    <div class="w-full px-3 sm:w-1/2">
+                        <div class="mb-5">
+                            <input type="number" name="city" id="city" placeholder="Enter total Bathroom"
+                                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="mb-4">
-                <label class="block text-gray-700 font-medium mb-2">What is your favorite animal?</label>
+                <label class="block text-gray-700 font-medium mb-2">Category</label>
                 <div class="flex flex-wrap -mx-2">
-                    <div class="px-2 w-1/3">
-                        <label for="animal-cat" class="block text-gray-700 font-medium mb-2">
-                            <input type="checkbox" id="animal-cat" name="animal[]" value="cat" class="mr-2">Cat
-                        </label>
+                    <div class="px-2 w-1/3 pb-2" *ngFor="let Category of allCategory">
+                        <div class="flex items-center">
+                            <input id="{{Category}}" type="radio" value="" name="default-radio"
+                                class="w-4 h-4 text-blue-600 border-gray-300 accent-indigo-700">
+                            <label for="{{Category}}"
+                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{Category}}</label>
+                        </div>
                     </div>
-                    <div class="px-2 w-1/3">
-                        <label for="animal-dog" class="block text-gray-700 font-medium mb-2">
-                            <input type="checkbox" id="animal-dog" name="animal[]" value="dog" class="mr-2">Dog
-                        </label>
-                    </div>
-                    <div class="px-2 w-1/3">
-                        <label for="animal-bird" class="block text-gray-700 font-medium mb-2">
-                            <input type="checkbox" id="animal-bird" name="animal[]" value="bird" class="mr-2">Bird
-                        </label>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">What do you have on your house</label>
+                <div class="flex flex-wrap -mx-2">
+                    <div class="px-2 w-1/3" *ngFor="let room of roomOptions">
+                        <div class="checkbox-wrapper-29 text-gray-600">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox__input" />
+                                <span class="checkbox__label"></span>
+                                {{ room }}
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -96,6 +106,31 @@
                 <textarea id="message" name="message"
                     class="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-400"
                     rows="5"></textarea>
+            </div>
+            <div>
+                <button type="submit"
+                    class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Submit</button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Post Blog -->
+    <div class="max-w-2xl mx-auto p-4" *ngIf="onFormBlog">
+        <form>
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 font-medium mb-2">Title</label>
+                <input type="text" name="area" id="area" placeholder="Title name (Ex.Two-storey modern house)"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </div>
+            <div class="mb-4">
+                <label for="message" class="block text-gray-700 font-medium mb-2">Message</label>
+                <textarea id="message" name="message"
+                    class="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-400"
+                    rows="5"></textarea>
+            </div>
+            <div class="mb-4">
+                
             </div>
             <div>
                 <button type="submit"

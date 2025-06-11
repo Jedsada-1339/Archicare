@@ -7,13 +7,17 @@ import { Component } from '@angular/core';
   styleUrl: './post-page.component.css'
 })
 export class PostPageComponent {
-  onSelectedHouse :string = "text-indigo-600 shadow bg-white"
-  onSelectedBlog :string = ""
+  onSelectedHouse: string = "text-indigo-600 shadow bg-white"
+  onSelectedBlog: string = ""
 
-  onFormHouse :boolean = true
-  onFormBlog :boolean = false
+  onFormHouse: boolean = true
+  onFormBlog: boolean = false
 
-  togglePostHouse(){
+  roomOptions = ['Living Room', 'Kitchen', 'Balcony / Storage Area', 'Bathroom'];
+
+  allCategory = ['One-storyhouse','Two-story house','Apartment','Townhouse'];
+
+  togglePostHouse() {
     this.onSelectedHouse = "text-indigo-600 shadow bg-white"
     this.onSelectedBlog = ""
 
@@ -22,11 +26,12 @@ export class PostPageComponent {
 
   }
 
-  togglePostBlog(){
+  togglePostBlog() {
     this.onSelectedHouse = ""
     this.onSelectedBlog = "text-indigo-600 shadow bg-white"
 
     this.onFormHouse = false
     this.onFormBlog = true
   }
+
 }
