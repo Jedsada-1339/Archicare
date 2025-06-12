@@ -1,5 +1,5 @@
 // rate.component.ts
-import { Component } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 
 @Component({
   selector: 'app-rate',
@@ -8,8 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './rate.component.css'
 })
 export class RateComponent {
-  likes = 342;
-  dislikes = 12;
+  @Input() likes:number = 0;
+  @Input() dislikes:number = 12;
+  
   liked = false;
   disliked = false;
   showLikeNotification = false;

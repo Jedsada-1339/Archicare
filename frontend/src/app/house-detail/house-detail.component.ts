@@ -47,6 +47,16 @@ export class HouseDetailComponent implements OnInit, OnDestroy {
     specifications: {
       budget: 'Not exceeding 1.5 million THB',
       land: '13.20 x 13.60 meters'
+    },
+    tag: {
+      onestoryhouse: false, 
+      twostoryhouse: true, 
+      apartment: false, 
+      townhouse: false
+    },
+    like: {
+      likecount:300,
+      dislikecount:14
     }
   };
 

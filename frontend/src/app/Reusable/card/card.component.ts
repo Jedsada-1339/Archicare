@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
   styleUrl: './card.component.css'
 })
 export class CardComponent {
+
   houseDetails = {
     title: 'Two-storey modern house',
     area: {
@@ -27,6 +28,10 @@ export class CardComponent {
       twostoryhouse: true, 
       apartment: false, 
       townhouse: false
+    },
+    like: {
+      likecount:300,
+      dislikecount:14
     }
   };
 }

@@ -151,7 +151,7 @@
             <p class="text-sm text-gray-600">{{ houseDetails.specifications.land }}</p>
           </div>
 
-          <app-rate></app-rate>
+          <app-rate [likes]="houseDetails.like.likecount" [dislikes]="houseDetails.like.dislikecount"></app-rate>
         </div>
       </div>
     </div>
