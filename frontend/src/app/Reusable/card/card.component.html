@@ -15,11 +15,17 @@
 
       <div class="flex flex-wrap gap-2 pb-2">
         <h1>Tag : </h1>
-        <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm">Two-storey house</a>
-        <a href="#" class="border-2 border-black hover:hover:bg-blue-300 py-1 px-2 rounded-lg text-sm">Detached
-          house</a>
-        <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm">3 Bedroom</a>
-        <a href="#" class="border-2 border-black hover:hover:bg-blue-300 py-1 px-2 rounded-lg text-sm">2 Bathroom</a>
+        <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" *ngIf="houseDetails.tag.onestoryhouse">One-storey house</a>
+        <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" *ngIf="houseDetails.tag.twostoryhouse">Two-storey house</a>
+        <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" *ngIf="houseDetails.tag.apartment">Apartment</a>
+        <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" *ngIf="houseDetails.tag.townhouse">Townhouse</a>
+
+        <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm">{{houseDetails.rooms.bedrooms}} Bedroom</a>
+        <a href="#" class="border-2 border-black hover:hover:bg-blue-300 py-1 px-2 rounded-lg text-sm">{{houseDetails.rooms.bathrooms}} Bathroom</a>
+
+        <a href="#" class="border-2 border-black hover:hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" *ngIf="houseDetails.rooms.kitchen">Kitchen</a>
+        <a href="#" class="border-2 border-black hover:hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" *ngIf="houseDetails.rooms.livingRoom">LivingRoom</a>
+
       </div>
     </div>
 
