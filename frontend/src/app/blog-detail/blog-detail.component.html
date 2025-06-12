@@ -5,7 +5,7 @@
         <div class="container mx-auto px-4">
             <h1 class="text-4xl font-bold text-gray-800 mb-2">{{blog_detail.title}}</h1>
             <p class="text-gray-600">Published on {{blog_detail.createDate}}</p>
-            <app-rate></app-rate>
+            <app-rate [likes]="blog_detail.likes" [dislikes]="blog_detail.dislikes"></app-rate>
         </div>
     </div>
     <div class="bg-white py-8">
