@@ -1,61 +1,94 @@
-import { IsArray, IsNotEmpty, IsOptional, IsString, IsNumber, Min, IsBoolean } from "class-validator";
+import { IsArray, IsNotEmpty, IsOptional, IsString, IsNumber, Min, IsBoolean, ValidateNested, IsObject } from "class-validator";
 import { Type } from "class-transformer";
 
+class AreaDto {
+    @IsNumber()
+    @Min(0)
+    total: number;
+
+    @IsNumber()
+    @Min(0)
+    usable: number;
+
+    @IsNumber()
+    @Min(0)
+    terrace: number;
+
+    @IsNumber()
+    @Min(0)
+    garden: number;
+}
+
+class RoomsDto {
+    @IsNumber()
+    @Min(0)
+    bedrooms: number;
+
+    @IsNumber()
+    @Min(0)
+    bathrooms: number;
+
+    @IsBoolean()
+    livingRoom: boolean;
+
+    @IsBoolean()
+    kitchen: boolean;
+
+    @IsBoolean()
+    terrace: boolean;
+}
+
+class TagDto {
+    @IsBoolean()
+    onestoryhouse: boolean;
+
+    @IsBoolean()
+    twostoryhouse: boolean;
+
+    @IsBoolean()
+    apartment: boolean;
+
+    @IsBoolean()
+    townhouse: boolean;
+}
+
+class LikeDto {
+    @IsNumber()
+    @Min(0)
+    likecount: number;
+
+    @IsNumber()
+    @Min(0)
+    dislikecount: number;
+}
+
 export class CreateHouseDto {
-
     @IsNotEmpty()
     @IsString()
-    title: string
+    title: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
-    content: string
+    content?: string;
 
-    @IsNotEmpty()
-    @IsString()
-    categoryId: string
+    @ValidateNested()
+    @Type(() => AreaDto)
+    area: AreaDto;
 
-    @IsOptional()
-    @IsNumber()
-    @Min(0)
-    @Type(() => Number)
-    liked?: number = 0
+    @ValidateNested()
+    @Type(() => RoomsDto)
+    rooms: RoomsDto;
 
-    @IsOptional()
-    @IsNumber()
-    @Min(0)
-    @Type(() => Number)
-    disliked?: number = 0
+    @ValidateNested()
+    @Type(() => TagDto)
+    tag: TagDto;
 
-    @IsOptional()
-    @IsNumber()
-    @Min(0)
-    @Type(() => Number)
-    bedrooms?: number = 0
-
-    @IsOptional()
-    @IsNumber()
-    @Min(0)
-    @Type(() => Number)
-    bathroom?: number = 0
+    @ValidateNested()
+    @Type(() => LikeDto)
+    like: LikeDto;
 
     @IsOptional()
     @IsArray()
     @IsString({ each: true })
     imageUrls?: string[];
-
-    @IsOptional()
-    @IsBoolean()
-    @Type(() => Boolean)
-    livingRoom?: boolean = false
-
-    @IsOptional()
-    @IsBoolean()
-    @Type(() => Boolean)
-    kitchen?: boolean = false
-
-    @IsOptional()
-    @IsBoolean()
-    @Type(() => Boolean)
-    terrace?: boolean = false
 }

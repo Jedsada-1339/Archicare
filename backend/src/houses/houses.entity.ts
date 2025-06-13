@@ -2,33 +2,37 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateCol
 
 @Entity({ name: 'house' })
 export class Houses {
-
     @PrimaryGeneratedColumn()
     id: string;
 
     @Column()
     title: string;
 
-    @Column()
+    @Column({ nullable: true })
     content: string;
 
     @Column('simple-array', { nullable: true })
     imageUrls: string[];
 
-    @Column({ default: 0 })
-    liked: number;
+    // Area information
+    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    totalArea: number;
 
-    @Column({ default: 0 })
-    disliked: number;
+    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    usableArea: number;
 
+    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    terraceArea: number;
+
+    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    gardenArea: number;
+
+    // Rooms information
     @Column({ default: 0 })
     bedrooms: number;
 
     @Column({ default: 0 })
-    bathroom: number;
-
-    @Column()
-    categoryId: number;
+    bathrooms: number;
 
     @Column({ default: false })
     livingRoom: boolean;
@@ -38,6 +42,26 @@ export class Houses {
 
     @Column({ default: false })
     terrace: boolean;
+
+    // House type tags
+    @Column({ default: false })
+    onestoryhouse: boolean;
+
+    @Column({ default: false })
+    twostoryhouse: boolean;
+
+    @Column({ default: false })
+    apartment: boolean;
+
+    @Column({ default: false })
+    townhouse: boolean;
+
+    // Like system
+    @Column({ default: 0 })
+    likecount: number;
+
+    @Column({ default: 0 })
+    dislikecount: number;
 
     @CreateDateColumn()
     createdAt: Date;

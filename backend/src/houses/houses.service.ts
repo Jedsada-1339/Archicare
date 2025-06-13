@@ -15,39 +15,84 @@ export class HousesService {
         const {
             title,
             content,
-            categoryId,
-            bedrooms,
-            bathroom,
-            livingRoom,
-            kitchen,
-            terrace,
-            liked,
-            disliked,
+            area,
+            rooms,
+            tag,
+            like,
             imageUrls,
-        } = createHouseDto
+        } = createHouseDto;
 
         const house = this.housesRepository.create({
             title,
-            content,
-            categoryId: parseInt(categoryId),
-            liked: liked || 0,
-            disliked: disliked || 0,
-            bedrooms: bedrooms || 0,
-            bathroom: bathroom || 0,
-            livingRoom: livingRoom || false,
-            kitchen: kitchen || false,
-            terrace: terrace || false,
-            imageUrls: imageUrls || [], 
-        })
+            content: content || '',
+            
+            // Area information
+            totalArea: area.total,
+            usableArea: area.usable,
+            terraceArea: area.terrace,
+            gardenArea: area.garden,
+            
+            // Rooms information
+            bedrooms: rooms.bedrooms,
+            bathrooms: rooms.bathrooms,
+            livingRoom: rooms.livingRoom,
+            kitchen: rooms.kitchen,
+            terrace: rooms.terrace,
+            
+            // Tags
+            onestoryhouse: tag.onestoryhouse,
+            twostoryhouse: tag.twostoryhouse,
+            apartment: tag.apartment,
+            townhouse: tag.townhouse,
+            
+            // Like system
+            likecount: like.likecount,
+            dislikecount: like.dislikecount,
+            
+            imageUrls: imageUrls || [],
+        });
 
-        return await this.housesRepository.save(house)
+        return await this.housesRepository.save(house);
     }
 
-    async getHouseDetail(): Promise<Houses[]> {
-        return await this.housesRepository.find()
+    async getHouseDetail(): Promise<any[]> {
+        const houses = await this.housesRepository.find();
+        
+        // Transform data to match the desired structure
+        return houses.map(house => ({
+            id: house.id,
+            title: house.title,
+            content: house.content,
+            area: {
+                total: house.totalArea,
+                usable: house.usableArea,
+                terrace: house.terraceArea,
+                garden: house.gardenArea
+            },
+            rooms: {
+                bedrooms: house.bedrooms,
+                bathrooms: house.bathrooms,
+                livingRoom: house.livingRoom,
+                kitchen: house.kitchen,
+                terrace: house.terrace
+            },
+            tag: {
+                onestoryhouse: house.onestoryhouse,
+                twostoryhouse: house.twostoryhouse,
+                apartment: house.apartment,
+                townhouse: house.townhouse
+            },
+            like: {
+                likecount: house.likecount,
+                dislikecount: house.dislikecount
+            },
+            imageUrls: house.imageUrls,
+            createdAt: house.createdAt,
+            updatedAt: house.updatedAt
+        }));
     }
 
-    async getHouseById(id: string): Promise<Houses> {
+    async getHouseById(id: string): Promise<any> {
         const house = await this.housesRepository.findOne({ 
             where: { id }
         });
@@ -56,7 +101,38 @@ export class HousesService {
             throw new NotFoundException(`House with ID ${id} not found`);
         }
 
-        return house;
+        // Transform data to match the desired structure
+        return {
+            id: house.id,
+            title: house.title,
+            content: house.content,
+            area: {
+                total: house.totalArea,
+                usable: house.usableArea,
+                terrace: house.terraceArea,
+                garden: house.gardenArea
+            },
+            rooms: {
+                bedrooms: house.bedrooms,
+                bathrooms: house.bathrooms,
+                livingRoom: house.livingRoom,
+                kitchen: house.kitchen,
+                terrace: house.terrace
+            },
+            tag: {
+                onestoryhouse: house.onestoryhouse,
+                twostoryhouse: house.twostoryhouse,
+                apartment: house.apartment,
+                townhouse: house.townhouse
+            },
+            like: {
+                likecount: house.likecount,
+                dislikecount: house.dislikecount
+            },
+            imageUrls: house.imageUrls,
+            createdAt: house.createdAt,
+            updatedAt: house.updatedAt
+        };
     }
 
     async deleteHouseDetail(id: string): Promise<Houses> {
@@ -76,63 +152,104 @@ export class HousesService {
         await this.housesRepository.clear();
     }
 
-    async findByTitleContains(title: string): Promise<Houses[]> {
-        return await this.housesRepository.find({
+    async findByTitleContains(title: string): Promise<any[]> {
+        const houses = await this.housesRepository.find({
             where: { 
                 title: Like(`%${title}%`) 
             }
         });
+
+        // Transform data to match the desired structure
+        return houses.map(house => ({
+            id: house.id,
+            title: house.title,
+            content: house.content,
+            area: {
+                total: house.totalArea,
+                usable: house.usableArea,
+                terrace: house.terraceArea,
+                garden: house.gardenArea
+            },
+            rooms: {
+                bedrooms: house.bedrooms,
+                bathrooms: house.bathrooms,
+                livingRoom: house.livingRoom,
+                kitchen: house.kitchen,
+                terrace: house.terrace
+            },
+            tag: {
+                onestoryhouse: house.onestoryhouse,
+                twostoryhouse: house.twostoryhouse,
+                apartment: house.apartment,
+                townhouse: house.townhouse
+            },
+            like: {
+                likecount: house.likecount,
+                dislikecount: house.dislikecount
+            },
+            imageUrls: house.imageUrls,
+            createdAt: house.createdAt,
+            updatedAt: house.updatedAt
+        }));
     }
 
     // เพิ่ม like
-    async likeHouse(id: string): Promise<Houses> {
+    async likeHouse(id: string): Promise<any> {
         const house = await this.housesRepository.findOne({ where: { id } });
         
         if (!house) {
             throw new NotFoundException(`House with ID ${id} not found`);
         }
 
-        house.liked += 1;
-        return await this.housesRepository.save(house);
+        house.likecount += 1;
+        const updatedHouse = await this.housesRepository.save(house);
+        
+        return this.getHouseById(id);
     }
 
     // เพิ่ม dislike
-    async dislikeHouse(id: string): Promise<Houses> {
+    async dislikeHouse(id: string): Promise<any> {
         const house = await this.housesRepository.findOne({ where: { id } });
         
         if (!house) {
             throw new NotFoundException(`House with ID ${id} not found`);
         }
 
-        house.disliked += 1;
-        return await this.housesRepository.save(house);
+        house.dislikecount += 1;
+        await this.housesRepository.save(house);
+        
+        return this.getHouseById(id);
     }
 
     // ลบ like
-    async removeLike(id: string): Promise<Houses> {
+    async removeLike(id: string): Promise<any> {
         const house = await this.housesRepository.findOne({ where: { id } });
         
         if (!house) {
             throw new NotFoundException(`House with ID ${id} not found`);
         }
 
-        if (house.liked > 0) {
-            house.liked -= 1;
+        if (house.likecount > 0) {
+            house.likecount -= 1;
         }
-        return await this.housesRepository.save(house);
+        await this.housesRepository.save(house);
+        
+        return this.getHouseById(id);
     }
 
     // ลบ dislike
-    async removeDislike(id: string): Promise<Houses> {
+    async removeDislike(id: string): Promise<any> {
         const house = await this.housesRepository.findOne({ where: { id } });
         
         if (!house) {
             throw new NotFoundException(`House with ID ${id} not found`);
         }
 
-        if (house.disliked > 0) {
-            house.disliked -= 1;
+        if (house.dislikecount > 0) {
+            house.dislikecount -= 1;
         }
-        return await this.housesRepository.save(house);
+        await this.housesRepository.save(house);
+        
+        return this.getHouseById(id);
     }
 }
