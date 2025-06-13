@@ -12,6 +12,9 @@ export class Houses {
     @Column()
     content: string;
 
+    @Column()
+    content2: string;
+
     @CreateDateColumn()
     create: Date;
 }

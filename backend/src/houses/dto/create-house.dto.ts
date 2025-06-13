@@ -7,4 +7,7 @@ export class CreateHouseDto{
 
     @IsNotEmpty()
     content: string
+
+    @IsNotEmpty()
+    content2: string
 }

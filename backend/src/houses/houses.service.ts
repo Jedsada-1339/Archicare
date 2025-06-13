@@ -15,11 +15,13 @@ export class HousesService {
         const {
             title,
             content,
+            content2,
         } = createHouseDto
 
         const house = await this.housesRepository.create({
             title,
             content,
+            content2,
         })
 
         await this.housesRepository.save(house)
