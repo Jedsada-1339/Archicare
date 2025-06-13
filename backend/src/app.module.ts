@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HousesModule } from './houses/houses.module';
+import { ImagesModule } from './images/images.module';
 
 
 @Module({
@@ -27,7 +28,9 @@ import { HousesModule } from './houses/houses.module';
       }
     }),
 
-    HousesModule
+    HousesModule,
+
+    ImagesModule
   ],
   controllers: [],
   providers: [],
