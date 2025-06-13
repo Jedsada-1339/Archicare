@@ -2,20 +2,24 @@ import { IsArray, IsNotEmpty, IsOptional, IsString, IsNumber, Min, IsBoolean, Va
 import { Type } from "class-transformer";
 
 class AreaDto {
+    @IsNotEmpty()
     @IsNumber()
-    @Min(0)
+    @Min(1)
     total: number;
 
+    @IsNotEmpty()
     @IsNumber()
-    @Min(0)
+    @Min(1)
     usable: number;
 
+    @IsNotEmpty()
     @IsNumber()
-    @Min(0)
+    @Min(1)
     terrace: number;
 
+    @IsNotEmpty()
     @IsNumber()
-    @Min(0)
+    @Min(1)
     garden: number;
 }
 

@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HousesModule } from './houses/houses.module';
 import { ImagesModule } from './images/images.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 
 @Module({
@@ -30,7 +32,11 @@ import { ImagesModule } from './images/images.module';
 
     HousesModule,
 
-    ImagesModule
+    ImagesModule,
+
+    AuthModule,
+
+    UsersModule
   ],
   controllers: [],
   providers: [],

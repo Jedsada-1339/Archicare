@@ -15,16 +15,16 @@ export class Houses {
     imageUrls: string[];
 
     // Area information
-    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    @Column({ default: 1 })
     totalArea: number;
 
-    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    @Column({ default: 1 })
     usableArea: number;
 
-    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    @Column({ default: 1 })
     terraceArea: number;
 
-    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    @Column({ default: 1 })
     gardenArea: number;
 
     // Rooms information
