@@ -7,5 +7,17 @@ import { Component } from '@angular/core';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  onSignIn:boolean = true;
+  onSignUp:boolean = false;
+
+  signup(){
+    this.onSignUp=true
+    this.onSignIn=false
+  }
+
+  signin(){
+    this.onSignIn=true
+    this.onSignUp=false
+  }
 
 }
