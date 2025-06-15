@@ -54,14 +54,19 @@ export class LoginComponent {
         next: (res: any) => {
           console.log('Signin success:', res);
           
-          // เก็บ JWT token ใน localStorage
-          if (res.access_token) {
-            localStorage.setItem('token', res.access_token);
-            localStorage.setItem('user', JSON.stringify(res.user)); // เก็บข้อมูล user ด้วย
+          // เก็บ JWT token ใน localStorage (แก้ชื่อ property ให้ตรงกับ backend)
+          if (res.accessToken) {
+            localStorage.setItem('token', res.accessToken);
+          }
+          
+          // เก็บข้อมูล user ด้วย (ถ้ามี)
+          if (res.user) {
+            localStorage.setItem('user', JSON.stringify(res.user));
           }
           
           alert('Signin successful!');
           
+          // Redirect ไปหน้า dashboard
           this.router.navigate(['']);
         },
         error: (err: HttpErrorResponse) => {

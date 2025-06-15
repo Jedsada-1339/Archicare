@@ -19,12 +19,18 @@ export class AuthService {
         return null
     }
 
-    async signIn(user: any){
-        const payload  = { username: user.username, sub: user.id}
+    async signIn(user: any) {
+    const payload = { username: user.username, sub: user.id }
 
-        return{
-            accessToken : this.jwtService.sign(payload)
+    return {
+        access_token: this.jwtService.sign(payload), // เปลี่ยนเป็น access_token
+        user: {
+            id: user.id,
+            username: user.username,
+            favHouse: user.favHouse,
+            favBlog: user.favBlog
         }
     }
+}
 
 }
