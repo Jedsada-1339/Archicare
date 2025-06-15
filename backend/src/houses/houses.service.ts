@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateHouseDto } from './dto/create-house.dto';
 import { Like, Repository } from 'typeorm';
 import { Houses } from './houses.entity';
+import { Users } from 'src/users/users.entity';
 
 @Injectable()
 export class HousesService {
@@ -11,7 +12,7 @@ export class HousesService {
         private housesRepository: Repository<Houses>,
     ) { }
 
-    async createHouseDetail(createHouseDto: CreateHouseDto): Promise<Houses> {
+    async createHouseDetail(createHouseDto: CreateHouseDto, user: Users): Promise<Houses> {
         const {
             title,
             content,
@@ -50,13 +51,17 @@ export class HousesService {
             dislikecount: like.dislikecount,
             
             imageUrls: imageUrls || [],
+
+            user,
         });
 
         return await this.housesRepository.save(house);
     }
 
-    async getHouseDetail(): Promise<any[]> {
-        const houses = await this.housesRepository.find();
+    async getHouseDetail(user: Users): Promise<any[]> {
+        const houses = await this.housesRepository.find({
+            relations: ['user']
+        });
         
         // Transform data to match the desired structure
         return houses.map(house => ({
@@ -88,7 +93,55 @@ export class HousesService {
             },
             imageUrls: house.imageUrls,
             createdAt: house.createdAt,
-            updatedAt: house.updatedAt
+            updatedAt: house.updatedAt,
+            creator: {
+                id: house.user?.id,
+                username: house.user?.username,
+            }
+        }));
+    }
+
+    // ✨ ฟังก์ชันใหม่: ดึงเฉพาะ house ของ user ที่ login อยู่
+    async getMyHouses(user: Users): Promise<any[]> {
+        const houses = await this.housesRepository.find({
+            where: { user: { id: user.id } },
+            relations: ['user']
+        });
+        
+        return houses.map(house => ({
+            id: house.id,
+            title: house.title,
+            content: house.content,
+            area: {
+                total: house.totalArea,
+                usable: house.usableArea,
+                terrace: house.terraceArea,
+                garden: house.gardenArea
+            },
+            rooms: {
+                bedrooms: house.bedrooms,
+                bathrooms: house.bathrooms,
+                livingRoom: house.livingRoom,
+                kitchen: house.kitchen,
+                terrace: house.terrace
+            },
+            tag: {
+                onestoryhouse: house.onestoryhouse,
+                twostoryhouse: house.twostoryhouse,
+                apartment: house.apartment,
+                townhouse: house.townhouse
+            },
+            like: {
+                likecount: house.likecount,
+                dislikecount: house.dislikecount
+            },
+            imageUrls: house.imageUrls,
+            createdAt: house.createdAt,
+            updatedAt: house.updatedAt,
+            creator: {
+                id: house.user.id,
+                username: house.user.username,
+            }
         }));
     }
 
@@ -135,6 +188,54 @@ export class HousesService {
         };
     }
 
+    // ✨ ฟังก์ชันใหม่: ดึงข้อมูล house พร้อมข้อมูลผู้สร้าง
+    async getHouseByIdWithCreator(id: string): Promise<any> {
+        const house = await this.housesRepository.findOne({ 
+            where: { id },
+            relations: ['user']
+        });
+
+        if (!house) {
+            throw new NotFoundException(`House with ID ${id} not found`);
+        }
+
+        return {
+            id: house.id,
+            title: house.title,
+            content: house.content,
+            area: {
+                total: house.totalArea,
+                usable: house.usableArea,
+                terrace: house.terraceArea,
+                garden: house.gardenArea
+            },
+            rooms: {
+                bedrooms: house.bedrooms,
+                bathrooms: house.bathrooms,
+                livingRoom: house.livingRoom,
+                kitchen: house.kitchen,
+                terrace: house.terrace
+            },
+            tag: {
+                onestoryhouse: house.onestoryhouse,
+                twostoryhouse: house.twostoryhouse,
+                apartment: house.apartment,
+                townhouse: house.townhouse
+            },
+            like: {
+                likecount: house.likecount,
+                dislikecount: house.dislikecount
+            },
+            imageUrls: house.imageUrls,
+            createdAt: house.createdAt,
+            updatedAt: house.updatedAt,
+            creator: {
+                id: house.user?.id,
+                username: house.user?.username,
+            }
+        };
+    }
+
     async deleteHouseDetail(id: string): Promise<Houses> {
         const house = await this.housesRepository.findOne({ 
             where: { id }
@@ -156,7 +257,8 @@ export class HousesService {
         const houses = await this.housesRepository.find({
             where: { 
                 title: Like(`%${title}%`) 
-            }
+            },
+            relations: ['user']
         });
 
         // Transform data to match the desired structure
@@ -189,7 +291,58 @@ export class HousesService {
             },
             imageUrls: house.imageUrls,
             createdAt: house.createdAt,
-            updatedAt: house.updatedAt
+            updatedAt: house.updatedAt,
+            creator: {
+                id: house.user?.id,
+                username: house.user?.username,
+            }
+        }));
+    }
+
+    // ✨ ฟังก์ชันใหม่: ค้นหาเฉพาะ house ของ user ที่ login อยู่
+    async findMyHousesByTitle(title: string, user: Users): Promise<any[]> {
+        const houses = await this.housesRepository.find({
+            where: { 
+                title: Like(`%${title}%`),
+                user: { id: user.id }
+            },
+            relations: ['user']
+        });
+
+        return houses.map(house => ({
+            id: house.id,
+            title: house.title,
+            content: house.content,
+            area: {
+                total: house.totalArea,
+                usable: house.usableArea,
+                terrace: house.terraceArea,
+                garden: house.gardenArea
+            },
+            rooms: {
+                bedrooms: house.bedrooms,
+                bathrooms: house.bathrooms,
+                livingRoom: house.livingRoom,
+                kitchen: house.kitchen,
+                terrace: house.terrace
+            },
+            tag: {
+                onestoryhouse: house.onestoryhouse,
+                twostoryhouse: house.twostoryhouse,
+                apartment: house.apartment,
+                townhouse: house.townhouse
+            },
+            like: {
+                likecount: house.likecount,
+                dislikecount: house.dislikecount
+            },
+            imageUrls: house.imageUrls,
+            createdAt: house.createdAt,
+            updatedAt: house.updatedAt,
+            creator: {
+                id: house.user.id,
+                username: house.user.username,
+            }
         }));
     }
 

@@ -24,6 +24,8 @@ export class UsersService {
             const user = await this.usersRepository.create({
                 username,
                 password: hashPassword,
+                favHouse: [],
+                favBlog: [],
             })
 
             return await this.usersRepository.save(user)

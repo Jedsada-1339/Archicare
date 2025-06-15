@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Houses } from "src/houses/houses.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Users{
@@ -11,9 +12,18 @@ export class Users{
     @Column()
     password: string
 
+    @Column('simple-array', { nullable: true })
+    favHouse: string[];
+
+    @Column('simple-array', { nullable: true })
+    favBlog: string[];
+
     @CreateDateColumn()
     created: Date
 
     @UpdateDateColumn()
     createdUpdate: Date
+
+    @OneToMany(type => Houses,houses => houses.user)
+    houses: Houses
 }
