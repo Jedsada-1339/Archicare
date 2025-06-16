@@ -54,9 +54,9 @@ export class LoginComponent {
         next: (res: any) => {
           console.log('Signin success:', res);
           
-          // เก็บ JWT token ใน localStorage (แก้ชื่อ property ให้ตรงกับ backend)
-          if (res.accessToken) {
-            localStorage.setItem('token', res.accessToken);
+          // แก้ไขให้ตรงกับ backend ที่ส่ง access_token มา
+          if (res.access_token) {
+            localStorage.setItem('token', res.access_token);
           }
           
           // เก็บข้อมูล user ด้วย (ถ้ามี)
@@ -65,6 +65,9 @@ export class LoginComponent {
           }
           
           alert('Signin successful!');
+          
+          // Trigger การอัพเดท header โดยการ dispatch custom event
+          window.dispatchEvent(new Event('storage'));
           
           // Redirect ไปหน้า dashboard
           this.router.navigate(['']);
