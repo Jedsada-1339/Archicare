@@ -1,4 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HouseService, HouseDetail } from '../house.service';
 
 @Component({
   selector: 'app-house-detail',
@@ -11,61 +13,91 @@ export class HouseDetailComponent implements OnInit, OnDestroy {
   isModalOpen = false;
   modalImageIndex = 0;
   autoSlideInterval: any;
+  
+  // Loading and error states
+  isLoading = true;
+  error: string | null = null;
+  
+  // House data
+  houseDetails: HouseDetail | null = null;
+  houseImages: { src: string }[] = [];
+  recommendedHouses: HouseDetail[] = [];
 
-  // House images array
-  houseImages = [
-    {
-      src: 'img/house/Ex-house1.jpg',
-    },
-    {
-      src: 'img/house/Ex-house1.jpg',
-    },
-    {
-      src: 'img/house/Ex-house1.jpg',
-    },
-    {
-      src: 'img/house/Ex-house1.jpg',
-    }
-    
-  ];
-
-  houseDetails = {
-    title: 'Two-storey modern house',
-    area: {
-      total: 137,
-      usable: 93,
-      terrace: 6,
-      garden: 34
-    },
-    rooms: {
-      bedrooms: 3,
-      bathrooms: 2,
-      livingRoom: true,
-      kitchen: true,
-      terrace: true
-    },
-    specifications: {
-      budget: 'Not exceeding 1.5 million THB',
-      land: '13.20 x 13.60 meters'
-    },
-    tag: {
-      onestoryhouse: false, 
-      twostoryhouse: true, 
-      apartment: false, 
-      townhouse: false
-    },
-    like: {
-      likecount:300,
-      dislikecount:14
-    }
-  };
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private houseService: HouseService
+  ) {}
 
   ngOnInit(): void {
-    this.startAutoSlide();
+    // Get house ID from route parameter
+    this.route.params.subscribe(params => {
+      const id = +params['id']; // Convert to number
+      if (id) {
+        this.loadHouseDetail(id);
+      } else {
+        this.error = 'Invalid house ID';
+        this.isLoading = false;
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.stopAutoSlide();
+  }
+
+  loadHouseDetail(id: number): void {
+    this.isLoading = true;
+    this.error = null;
+
+    this.houseService.getHouseById(id).subscribe({
+      next: (house) => {
+        this.houseDetails = house;
+        this.setupImages();
+        this.loadRecommendedHouses(id);
+        this.isLoading = false;
+        this.startAutoSlide();
+      },
+      error: (err) => {
+        console.error('Error loading house detail:', err);
+        this.error = err.status === 404 
+          ? 'House not found' 
+          : 'Failed to load house details. Please try again later.';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  setupImages(): void {
+    if (this.houseDetails?.imageUrls && this.houseDetails.imageUrls.length > 0) {
+      this.houseImages = this.houseDetails.imageUrls.map(url => ({ src: url }));
+    } else {
+      // Fallback images if no images from API
+      this.houseImages = [
+        { src: 'img/house/Ex-house1.jpg' }
+      ];
+    }
+  }
+
+  loadRecommendedHouses(excludeId: number): void {
+    this.houseService.getRecommendedHouses(excludeId).subscribe({
+      next: (houses) => {
+        this.recommendedHouses = houses.slice(0, 3); // Take first 3 for recommendation
+      },
+      error: (err) => {
+        console.error('Error loading recommended houses:', err);
+        // Don't show error for recommended houses, just log it
+      }
+    });
+  }
+
+  // Navigation methods
+  goBack(): void {
+    window.history.back();
+  }
+
+  goToHouse(houseId: number): void {
+    this.router.navigate(['/house-detail', houseId]);
   }
 
   // Carousel navigation methods
@@ -85,9 +117,11 @@ export class HouseDetailComponent implements OnInit, OnDestroy {
 
   // Auto-slide functionality
   startAutoSlide(): void {
-    this.autoSlideInterval = setInterval(() => {
-      this.nextSlide();
-    }, 5000); // Change slide every 5 seconds
+    if (this.houseImages.length > 1) {
+      this.autoSlideInterval = setInterval(() => {
+        this.nextSlide();
+      }, 5000); // Change slide every 5 seconds
+    }
   }
 
   stopAutoSlide(): void {

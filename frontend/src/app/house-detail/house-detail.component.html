@@ -1,6 +1,60 @@
 <app-header></app-header>
 
-<div class="max-w-7xl mx-auto p-4">
+<!-- Loading State -->
+<div *ngIf="isLoading" class="max-w-7xl mx-auto p-4">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Left Column - Carousel Skeleton -->
+    <div class="order-1">
+      <div class="bg-gray-300 animate-pulse rounded-lg h-80 md:h-96"></div>
+    </div>
+    
+    <!-- Right Column - Details Skeleton -->
+    <div class="order-2">
+      <div class="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
+        <div class="h-8 bg-gray-300 animate-pulse rounded mb-4 w-3/4"></div>
+        <div class="h-4 bg-gray-300 animate-pulse rounded mb-6 w-full"></div>
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div class="h-12 bg-gray-300 animate-pulse rounded"></div>
+          <div class="h-12 bg-gray-300 animate-pulse rounded"></div>
+          <div class="h-12 bg-gray-300 animate-pulse rounded"></div>
+          <div class="h-12 bg-gray-300 animate-pulse rounded"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Error State -->
+<div *ngIf="error && !isLoading" class="max-w-7xl mx-auto p-4">
+  <div class="bg-red-50 border border-red-200 rounded-lg p-8 text-center">
+    <div class="text-red-600 mb-4">
+      <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <h2 class="text-2xl font-bold mb-2">{{ error }}</h2>
+      <p class="text-red-500">Please check the URL or try again later.</p>
+    </div>
+    <div class="space-x-4">
+      <button (click)="goBack()" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
+        Go Back
+      </button>
+      <!-- <button (click)="loadHouseDetail(+route.snapshot.params['id'])" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+        Try Again
+      </button> -->
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div *ngIf="!isLoading && !error && houseDetails" class="max-w-7xl mx-auto p-4">
+  <!-- Back Button -->
+  <button (click)="goBack()" class="mb-4 flex items-center text-gray-600 hover:text-gray-800 transition-colors">
+    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+    </svg>
+    Back
+  </button>
+
   <!-- Main Content Grid -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
     
@@ -21,10 +75,12 @@
 
             <!-- Actual image -->
             <img [src]="image.src" 
-                 class="object-cover w-full h-full hover:scale-105 transition-transform duration-300">
+                 [alt]="houseDetails.title"
+                 class="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                 >
             
-            <div class="absolute inset-0 hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center">
-              <span class="text-white text-sm opacity-0 hover:opacity-100 transition-opacity px-3 py-1 rounded">
+            <div class="absolute inset-0 hover:bg-black hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center">
+              <span class="text-white text-sm opacity-0 hover:opacity-100 transition-opacity px-3 py-1 rounded bg-black bg-opacity-50">
                 Click to view larger
               </span>
             </div>
@@ -32,7 +88,7 @@
         </div>
 
         <!-- Slide Indicators -->
-        <div class="flex absolute bottom-5 left-1/2 z-30 -translate-x-1/2 space-x-2">
+        <div *ngIf="houseImages.length > 1" class="flex absolute bottom-5 left-1/2 z-30 -translate-x-1/2 space-x-2">
           <button *ngFor="let image of houseImages; let i = index"
                   type="button"
                   class="w-3 h-3 rounded-full transition-all duration-300"
@@ -45,8 +101,9 @@
         </div>
 
         <!-- Navigation Buttons -->
-        <button type="button"
-                class="flex absolute top-1/2 left-3 z-40 items-center justify-center w-10 h-10 bg-black/50 bg-opacity-30 rounded-full hover:bg-opacity-50 focus:outline-none focus:ring-2 focus:ring-white transition-all duration-300"
+        <button *ngIf="houseImages.length > 1"
+                type="button"
+                class="flex absolute top-1/2 left-3 z-40 items-center justify-center w-10 h-10 bg-black bg-opacity-30 rounded-full hover:bg-opacity-50 focus:outline-none focus:ring-2 focus:ring-white transition-all duration-300"
                 (click)="prevSlide()"
                 aria-label="Previous slide">
           <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,8 +111,9 @@
           </svg>
         </button>
 
-        <button type="button"
-                class="flex absolute top-1/2 right-3 z-40 items-center justify-center w-10 h-10 bg-black/50 bg-opacity-30 rounded-full hover:bg-opacity-50 focus:outline-none focus:ring-2 focus:ring-white transition-all duration-300"
+        <button *ngIf="houseImages.length > 1"
+                type="button"
+                class="flex absolute top-1/2 right-3 z-40 items-center justify-center w-10 h-10 bg-black bg-opacity-30 rounded-full hover:bg-opacity-50 focus:outline-none focus:ring-2 focus:ring-white transition-all duration-300"
                 (click)="nextSlide()"
                 aria-label="Next slide">
           <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -64,7 +122,7 @@
         </button>
 
         <!-- Slide Counter -->
-        <div class="absolute top-4 right-4 bg-black/50 bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
+        <div *ngIf="houseImages.length > 1" class="absolute top-4 right-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
           {{ currentSlide + 1 }} / {{ houseImages.length }}
         </div>
       </div>
@@ -76,10 +134,19 @@
         <!-- Title -->
         <h1 class="text-2xl font-bold text-indigo-500 mb-2">{{ houseDetails.title }}</h1>
         
+        <!-- Creator Info -->
+        <!-- <div class="mb-4 text-sm text-gray-600">
+          <span>Created by: {{ houseDetails.creator.username }}</span>
+          <span class="ml-4">{{ houseDetails.createdAt | date:'medium' }}</span>
+        </div> -->
+        
         <!-- Area Information -->
         <div class="mb-6">
           <p class="text-gray-700 text-sm leading-relaxed">
-            Usable Area: {{ houseDetails.area.total }} sq.m. (House: {{ houseDetails.area.usable }} sq.m./Balcony {{ houseDetails.area.terrace }} sq.m./Storage Space: {{ houseDetails.area.garden }} sq.m.)
+            Usable Area: {{ houseDetails.area.total }} sq.m. 
+            (House: {{ houseDetails.area.usable }} sq.m. / 
+            Terrace: {{ houseDetails.area.terrace }} sq.m. / 
+            Garden: {{ houseDetails.area.garden }} sq.m.)
           </p>
         </div>
 
@@ -126,31 +193,28 @@
             <span class="text-gray-700">Kitchen</span>
           </div>
 
-          <!-- Terrace -->
-          <div *ngIf="houseDetails.rooms.terrace" class="flex items-center space-x-3 col-span-2">
+          <!-- Balcony -->
+          <div *ngIf="houseDetails.rooms.balcony" class="flex items-center space-x-3 col-span-2">
             <div class="p-2 bg-gray-100 rounded">
               <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"></path>
               </svg>
             </div>
-            <span class="text-gray-700">Balcony / Storage Area</span>
+            <span class="text-gray-700">Balcony</span>
           </div>
         </div>
 
-        <!-- Specifications -->
-        <div class="space-y-4">
-          <!-- Budget -->
-          <div class="border-l-4 border-orange-500 pl-4">
-            <p class="text-sm font-semibold text-gray-800 mb-1">Budget :</p>
-            <p class="text-sm text-gray-600 font-medium">{{ houseDetails.specifications.budget }}</p>
-          </div>
+        <!-- Tags -->
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="text-sm font-medium text-gray-700 mr-2">Tags:</span>
+          <span *ngIf="houseDetails.tag.onestoryhouse" class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">One-storey house</span>
+          <span *ngIf="houseDetails.tag.twostoryhouse" class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Two-storey house</span>
+          <span *ngIf="houseDetails.tag.apartment" class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Apartment</span>
+          <span *ngIf="houseDetails.tag.townhouse" class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">Townhouse</span>
+        </div>
 
-          <!-- Land -->
-          <div class="border-l-4 border-red-500 pl-4">
-            <p class="text-sm font-semibold text-gray-800 mb-1">Land :</p>
-            <p class="text-sm text-gray-600">{{ houseDetails.specifications.land }}</p>
-          </div>
-
+        <!-- Like/Dislike -->
+        <div class="pt-4">
           <app-rate [likes]="houseDetails.like.likecount" [dislikes]="houseDetails.like.dislikecount"></app-rate>
         </div>
       </div>
@@ -160,7 +224,7 @@
 
 <!-- Modal for Full-Size Images -->
 <div *ngIf="isModalOpen" 
-     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 bg-opacity-90"
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90"
      (click)="closeModal()"
      (keydown)="onModalKeydown($event)"
      tabindex="0">
@@ -179,19 +243,20 @@
 
     <!-- Modal Image -->
     <div class="relative">
-
       <img [src]="houseImages[modalImageIndex].src" 
-           class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl transition-opacity duration-300">
+           [alt]="houseDetails?.title"
+           class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl transition-opacity duration-300"
+           >
       
       <!-- Image Title -->
       <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-        <p class="text-gray-300 text-sm">{{ modalImageIndex + 1 }} of {{ houseImages.length }}</p>
+        <p class="text-white text-sm">{{ modalImageIndex + 1 }} of {{ houseImages.length }}</p>
       </div>
     </div>
 
     <!-- Modal Navigation -->
     <button *ngIf="houseImages.length > 1"
-            class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 bg-opacity-50 hover:bg-opacity-70 text-white p-3 rounded-full transition-all duration-300"
+            class="absolute left-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-3 rounded-full transition-all duration-300"
             (click)="prevModalImage()"
             aria-label="Previous image">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -200,7 +265,7 @@
     </button>
 
     <button *ngIf="houseImages.length > 1"
-            class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 bg-opacity-50 hover:bg-opacity-70 text-white p-3 rounded-full transition-all duration-300"
+            class="absolute right-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-3 rounded-full transition-all duration-300"
             (click)="nextModalImage()"
             aria-label="Next image">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -209,7 +274,7 @@
     </button>
 
     <!-- Modal Indicators -->
-    <div class="flex justify-center mt-4 space-x-2">
+    <div *ngIf="houseImages.length > 1" class="flex justify-center mt-4 space-x-2">
       <button *ngFor="let image of houseImages; let i = index"
               class="w-2 h-2 rounded-full transition-all duration-300"
               [class.bg-white]="i === modalImageIndex"
@@ -221,23 +286,45 @@
   </div>
 </div>
 
-<!-- Detail -->
-<div class="px-10 lg:px-40 py-15">
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id fugiat debitis aperiam enim minus facilis culpa tempore saepe explicabo ipsum aspernatur officiis, nesciunt quae, temporibus illum, voluptates molestias modi adipisci ipsa. Laudantium id, eum sequi iure rem voluptatem ad! Aliquam, pariatur unde? Error earum tempore facilis dolores vero magni ipsum nemo! Facilis, consequuntur excepturi quo aspernatur assumenda veritatis ipsum sed vero quibusdam, nesciunt ipsam maiores sapiente. Aperiam ex molestias incidunt eveniet deserunt at quam voluptas, odit sit voluptates dolor qui. Porro, 
-        suscipit molestiae. Laboriosam in quam officiis corporis cum. Sequi praesentium earum ab assumenda? Optio ratione blanditiis dolor laudantium cumque?</p>
+<!-- Detail Content -->
+<div *ngIf="!isLoading && !error && houseDetails" class="px-10 lg:px-40 py-15">
+    <div class="prose max-w-none">
+        <h2 class="text-2xl font-bold mb-4">House Details</h2>
+        <p class="text-gray-700 leading-relaxed">{{ houseDetails.content }}</p>
+    </div>
 </div>
 
-<div class="px-10 lg:px-30">
-        <div class="mx-auto max-w-2xl lg:mx-0">
-            <h2 class="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">Recommend Houses</h2>
-            <p class="mt-2 text-lg/8 text-gray-600">Learn how to grow your business with our expert advice.</p>
-        </div>
+<!-- Recommended Houses -->
+<div *ngIf="!isLoading && !error" class="px-10 lg:px-30">
+    <div class="mx-auto max-w-2xl lg:mx-0">
+        <h2 class="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">Recommended Houses</h2>
+        <p class="mt-2 text-lg/8 text-gray-600">Discover similar houses that might interest you.</p>
+    </div>
 
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-8 lg:px-20 py-6">
-            <app-card></app-card>
-            <app-card></app-card>
-            <app-card></app-card>
-        </section>
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-8 lg:px-20 py-6">
+        <!-- สามารถส่งข้อมูล house แต่ละตัวไปที่ card component หรือสร้าง card แยก -->
+        <div *ngFor="let house of recommendedHouses" 
+             class="cursor-pointer"
+             (click)="goToHouse(house.id)">
+            <!-- Mini card component หรือใช้ app-card แต่ต้องปรับให้รับ input -->
+            <div class="hover:scale-105 transition delay-150 duration-300 w-full bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                <img class="rounded-t-lg w-full h-48 object-cover" 
+                     [src]="house.imageUrls && house.imageUrls.length > 0 ? house.imageUrls[0] : 'img/house/Ex-house1.jpg'" 
+                     [alt]="house.title" 
+                     >
+                <div class="p-4">
+                    <h5 class="text-lg font-bold text-gray-900 mb-2">{{ house.title }}</h5>
+                    <p class="text-sm text-gray-600 mb-2">{{ house.rooms.bedrooms }} BR • {{ house.rooms.bathrooms }} BA</p>
+                    <p class="text-xs text-gray-500">{{ house.area.total }} sq.m.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Fallback เมื่อไม่มี recommended houses -->
+        <div *ngIf="recommendedHouses.length === 0" class="col-span-full text-center py-8 text-gray-500">
+            <p>No recommended houses available at the moment.</p>
+        </div>
+    </section>
 </div>
 
 <app-footer></app-footer>

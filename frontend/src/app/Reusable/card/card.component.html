@@ -1,46 +1,94 @@
-<div
-  class="hover:scale-105 transition delay-150 duration-300 w-full bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+<!-- Loading State -->
+<div *ngIf="isLoading" class="w-full bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden animate-pulse">
+  <div class="bg-gray-300 h-48 w-full"></div>
+  <div class="p-5 space-y-4">
+    <div class="h-6 bg-gray-300 rounded w-3/4"></div>
+    <div class="flex gap-2">
+      <div class="h-8 bg-gray-300 rounded w-20"></div>
+      <div class="h-8 bg-gray-300 rounded w-24"></div>
+    </div>
+    <div class="flex justify-between items-center">
+      <div class="h-10 bg-gray-300 rounded w-24"></div>
+      <div class="h-8 bg-gray-300 rounded w-16"></div>
+    </div>
+  </div>
+</div>
 
-  <a routerLink="/house-detail">
-    <img class="rounded-t-lg w-full h-48 object-cover" src="img/house/Ex-house1.jpg" alt="Card Image" />
-  </a>
+<!-- Error State -->
+<div *ngIf="error && !isLoading" class="w-full bg-red-50 border border-red-200 rounded-lg shadow-sm p-5">
+  <div class="text-red-600 text-center">
+    <p>{{ error }}</p>
+    <button (click)="loadHouses()" class="mt-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+      Try Again
+    </button>
+  </div>
+</div>
 
-  <div class="p-5 flex flex-col justify-between h-full space-y-4">
-    <div>
-      <a routerLink="/house-detail">
-        <h5 class="mb-2 text-xl lg:text-2xl font-bold tracking-tight text-gray-900">
-          Two-storey modern house
-        </h5>
+<!-- Houses Display - แสดงทุก house -->
+<div *ngIf="!isLoading && !error">
+  <!-- Grid Layout -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div *ngFor="let house of houses" 
+         class="h-full flex flex-col justify-between hover:scale-105 transition delay-150 duration-300 w-full bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+
+      <a [routerLink]="['/house-detail', house.id]">
+        <img class="rounded-t-lg w-full h-48 object-cover" 
+             [src]="house.imageUrls && house.imageUrls.length > 0 ? house.imageUrls[0] : 'img/house/Ex-house1.jpg'" 
+             [alt]="house.title" />
       </a>
 
-      <div class="flex flex-wrap gap-2 pb-2">
-        <h1>Tag : </h1>
-        <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" *ngIf="houseDetails.tag.onestoryhouse">One-storey house</a>
-        <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" *ngIf="houseDetails.tag.twostoryhouse">Two-storey house</a>
-        <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" *ngIf="houseDetails.tag.apartment">Apartment</a>
-        <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" *ngIf="houseDetails.tag.townhouse">Townhouse</a>
+      <div class="p-5 flex flex-col justify-between h-full space-y-4">
+        <div>
+          <a [routerLink]="['/house-detail', house.id]">
+            <h5 class="mb-2 text-xl lg:text-2xl font-bold tracking-tight text-gray-900">
+              {{ house.title }}
+            </h5>
+          </a>
 
-        <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm">{{houseDetails.rooms.bedrooms}} Bedroom</a>
-        <a href="#" class="border-2 border-black hover:hover:bg-blue-300 py-1 px-2 rounded-lg text-sm">{{houseDetails.rooms.bathrooms}} Bathroom</a>
+          <div class="flex flex-wrap gap-2 pb-2">
+            <h1>Tag : </h1>
+            <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" 
+               *ngIf="house.tag.onestoryhouse">One-storey house</a>
+            <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" 
+               *ngIf="house.tag.twostoryhouse">Two-storey house</a>
+            <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" 
+               *ngIf="house.tag.apartment">Apartment</a>
+            <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" 
+               *ngIf="house.tag.townhouse">Townhouse</a>
 
-        <a href="#" class="border-2 border-black hover:hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" *ngIf="houseDetails.rooms.kitchen">Kitchen</a>
-        <a href="#" class="border-2 border-black hover:hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" *ngIf="houseDetails.rooms.livingRoom">LivingRoom</a>
+            <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm">
+              {{ house.rooms.bedrooms }} Bedroom</a>
+            <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm">
+              {{ house.rooms.bathrooms }} Bathroom</a>
 
+            <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" 
+               *ngIf="house.rooms.kitchen">Kitchen</a>
+            <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" 
+               *ngIf="house.rooms.livingRoom">Living Room</a>
+            <a href="#" class="border-2 border-black hover:bg-blue-300 py-1 px-2 rounded-lg text-sm" 
+               *ngIf="house.rooms.balcony">Balcony</a>
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center pt-4">
+          <a [routerLink]="['/house-detail', house.id]"
+             class="hidden sm:inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-black rounded-lg hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-blue-300 transition">
+            Read more
+            <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 14 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M1 5h12m0 0L9 1m4 4L9 9" />
+            </svg>
+          </a>
+
+          <app-rate [likes]="house.like.likecount" [dislikes]="house.like.dislikecount"></app-rate>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="flex justify-between items-center pt-4">
-      <a routerLink="/house-detail"
-        class="hidden sm:inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-black rounded-lg hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-blue-300 transition">
-        Read more
-        <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-          viewBox="0 0 14 10">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M1 5h12m0 0L9 1m4 4L9 9" />
-        </svg>
-      </a>
-
-      <app-rate [likes]="houseDetails.like.likecount" [dislikes]="houseDetails.like.dislikecount"></app-rate>
-    </div>
+  <!-- Empty State -->
+  <div *ngIf="houses.length === 0" class="w-full bg-gray-50 border border-gray-200 rounded-lg shadow-sm p-5 text-center mt-4">
+    <p class="text-gray-500">No houses available</p>
   </div>
 </div>

@@ -43,7 +43,11 @@ const routes: Routes = [
   {
     path: 'post-page',
     component: PostPageComponent
-  }
+  },
+  { 
+    path: 'house-detail/:id', 
+    component: HouseDetailComponent 
+  },
 
 ];
 
