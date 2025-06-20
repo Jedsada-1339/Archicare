@@ -24,14 +24,6 @@ class AreaDto {
 }
 
 class RoomsDto {
-    @IsNumber()
-    @Min(0)
-    bedrooms: number;
-
-    @IsNumber()
-    @Min(0)
-    bathrooms: number;
-
     @IsBoolean()
     livingRoom: boolean;
 
@@ -39,7 +31,7 @@ class RoomsDto {
     kitchen: boolean;
 
     @IsBoolean()
-    terrace: boolean;
+    balcony: boolean;
 }
 
 class TagDto {
@@ -90,6 +82,14 @@ export class CreateHouseDto {
     @ValidateNested()
     @Type(() => LikeDto)
     like: LikeDto;
+
+    @IsNumber()
+    @Min(0)
+    bedrooms: number;
+
+    @IsNumber()
+    @Min(0)
+    bathrooms: number;
 
     @IsOptional()
     @IsArray()

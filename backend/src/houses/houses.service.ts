@@ -26,6 +26,9 @@ export class HousesService {
         const house = this.housesRepository.create({
             title,
             content: content || '',
+
+            bedrooms: createHouseDto.bedrooms,
+            bathrooms: createHouseDto.bathrooms,
             
             // Area information
             totalArea: area.total,
@@ -34,11 +37,9 @@ export class HousesService {
             gardenArea: area.garden,
             
             // Rooms information
-            bedrooms: rooms.bedrooms,
-            bathrooms: rooms.bathrooms,
             livingRoom: rooms.livingRoom,
             kitchen: rooms.kitchen,
-            terrace: rooms.terrace,
+            balcony: rooms.balcony,
             
             // Tags
             onestoryhouse: tag.onestoryhouse,
@@ -79,7 +80,7 @@ export class HousesService {
                 bathrooms: house.bathrooms,
                 livingRoom: house.livingRoom,
                 kitchen: house.kitchen,
-                terrace: house.terrace
+                balcony: house.balcony
             },
             tag: {
                 onestoryhouse: house.onestoryhouse,
@@ -123,7 +124,7 @@ export class HousesService {
                 bathrooms: house.bathrooms,
                 livingRoom: house.livingRoom,
                 kitchen: house.kitchen,
-                terrace: house.terrace
+                balcony: house.balcony
             },
             tag: {
                 onestoryhouse: house.onestoryhouse,
@@ -170,7 +171,7 @@ export class HousesService {
                 bathrooms: house.bathrooms,
                 livingRoom: house.livingRoom,
                 kitchen: house.kitchen,
-                terrace: house.terrace
+                balcony: house.balcony
             },
             tag: {
                 onestoryhouse: house.onestoryhouse,
@@ -214,7 +215,7 @@ export class HousesService {
                 bathrooms: house.bathrooms,
                 livingRoom: house.livingRoom,
                 kitchen: house.kitchen,
-                terrace: house.terrace
+                balcony: house.balcony
             },
             tag: {
                 onestoryhouse: house.onestoryhouse,
@@ -277,7 +278,7 @@ export class HousesService {
                 bathrooms: house.bathrooms,
                 livingRoom: house.livingRoom,
                 kitchen: house.kitchen,
-                terrace: house.terrace
+                balcony: house.balcony
             },
             tag: {
                 onestoryhouse: house.onestoryhouse,
@@ -324,7 +325,7 @@ export class HousesService {
                 bathrooms: house.bathrooms,
                 livingRoom: house.livingRoom,
                 kitchen: house.kitchen,
-                terrace: house.terrace
+                balcony: house.balcony
             },
             tag: {
                 onestoryhouse: house.onestoryhouse,

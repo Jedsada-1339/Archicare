@@ -42,7 +42,7 @@ export class Houses {
     kitchen: boolean;
 
     @Column({ default: false })
-    terrace: boolean;
+    balcony: boolean;
 
     // House type tags
     @Column({ default: false })
