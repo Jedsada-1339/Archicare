@@ -138,81 +138,104 @@ export class PostPageComponent implements OnInit {
   }
 
   async onHouseSubmit() {
-    if (this.houseForm.invalid) {
-      alert('Please fill in all required fields');
-      return;
-    }
-
-    const user = this.getUser();
-    const token = this.getToken();
-
-    if (!user || !token) {
-      alert('Please login to post a house');
-      return;
-    }
-
-    this.isSubmitting = true;
-
-    try {
-      const tagValues = this.houseForm.get('tag')?.value || {};
-      const roomsValues = this.houseForm.get('rooms')?.value || {};
-
-      // Prepare the data according to your DTO structure
-      const createHouseDto = {
-        title: this.houseForm.get('title')?.value || '',
-        content: this.houseForm.get('content')?.value || '',
-        bedrooms: this.houseForm.get('bedroom')?.value || 0,
-        bathrooms: this.houseForm.get('bathroom')?.value || 0,
-        area: {
-          total: this.houseForm.get('total')?.value || 0,
-          usable: this.houseForm.get('usable')?.value || 0,
-          terrace: this.houseForm.get('terrace')?.value || 0,
-          garden: this.houseForm.get('garden')?.value || 0
-        },
-        rooms: roomsValues,
-        tag: tagValues,
-        like: {
-          likecount: 0,
-          dislikecount: 0
-        },
-        imageUrls: this.imagePreviews
-      };
-
-      console.log('Sending data:', createHouseDto);
-      console.log('User:', user);
-
-      // Set headers with authorization
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      });
-
-      // Make the API call
-      const response = await this.http.post(this.apiUrl, createHouseDto, { headers }).toPromise();
-
-      console.log('House created successfully:', response);
-      alert('House posted successfully!');
-
-      // Reset form and clear images
-      this.houseForm.reset();
-      this.imagePreviews = [];
-      this.selectedFiles = [];
-
-    } catch (error: any) {
-      console.error('Error creating house:', error);
-
-      if (error.status === 401) {
-        alert('Session expired. Please login again.');
-      } else if (error.status === 400) {
-        alert('Invalid data. Please check your inputs.');
-        console.error('Error details:', error.error);
-      } else {
-        alert('Error posting house. Please try again.');
-      }
-    } finally {
-      this.isSubmitting = false;
-    }
+  if (this.houseForm.invalid) {
+    alert('Please fill in all required fields');
+    return;
   }
+
+  const user = this.getUser();
+  const token = this.getToken();
+
+  if (!user || !token) {
+    alert('Please login to post a house');
+    return;
+  }
+
+  // ตรวจสอบจำนวนรูปภาพ (สูงสุด 6 รูป)
+  if (this.selectedFiles.length > 6) {
+    alert('สามารถอัพโหลดรูปภาพได้สูงสุด 6 รูปเท่านั้น');
+    return;
+  }
+
+  this.isSubmitting = true;
+
+  try {
+    const tagValues = this.houseForm.get('tag')?.value || {};
+    const roomsValues = this.houseForm.get('rooms')?.value || {};
+
+    // เตรียมข้อมูลตามโครงสร้างเดิม
+    const createHouseDto = {
+      title: this.houseForm.get('title')?.value || '',
+      content: this.houseForm.get('content')?.value || '',
+      bedrooms: this.houseForm.get('bedroom')?.value || 0,
+      bathrooms: this.houseForm.get('bathroom')?.value || 0,
+      area: {
+        total: this.houseForm.get('total')?.value || 0,
+        usable: this.houseForm.get('usable')?.value || 0,
+        terrace: this.houseForm.get('terrace')?.value || 0,
+        garden: this.houseForm.get('garden')?.value || 0
+      },
+      rooms: roomsValues,
+      tag: tagValues,
+      like: {
+        likecount: 0,
+        dislikecount: 0
+      },
+      imageUrls: this.imagePreviews // ส่ง preview ไปด้วย แต่ backend จะใช้ไฟล์จริง
+    };
+
+    // สร้าง FormData
+    const formData = new FormData();
+    
+    // เพิ่มข้อมูล JSON เป็น string
+    formData.append('houseData', JSON.stringify(createHouseDto));
+
+    // เพิ่มไฟล์รูปภาพ
+    this.selectedFiles.forEach((file, index) => {
+      formData.append('images', file);
+    });
+
+    console.log('Sending data:', createHouseDto);
+    console.log('Sending files:', this.selectedFiles.length, 'files');
+
+    // Set headers
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+      // ไม่ใส่ Content-Type ให้ browser handle เอง
+    });
+
+    // Make the API call
+    const response = await this.http.post(this.apiUrl, formData, { headers }).toPromise();
+
+    console.log('House created successfully:', response);
+    alert('House posted successfully!');
+
+    // Reset form and clear images
+    this.houseForm.reset();
+    this.imagePreviews = [];
+    this.selectedFiles = [];
+
+    // Reset file input
+    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+
+  } catch (error: any) {
+    console.error('Error creating house:', error);
+
+    if (error.status === 401) {
+      alert('Session expired. Please login again.');
+    } else if (error.status === 400) {
+      alert('Invalid data. Please check your inputs.');
+      console.error('Error details:', error.error);
+    } else {
+      alert('Error posting house. Please try again.');
+    }
+  } finally {
+    this.isSubmitting = false;
+  }
+}
 
   ngOnInit(): void {
     this.houseForm.valueChanges.subscribe(values => {
